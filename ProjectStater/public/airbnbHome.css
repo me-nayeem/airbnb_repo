@@ -1,40 +1,94 @@
-*{
-  padding: 0;
+/* Reset */
+* {
   margin: 0;
+  padding: 0;
   box-sizing: border-box;
 }
 
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: #f9fafb;
+  color: #333;
+  line-height: 1.6;
+}
+
+/* Header */
 header {
-  height: 10rem;
-  width: 100%;
-  background-color: rgb(230, 161, 13);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  background: linear-gradient(135deg, #ff6f61, #ff3d7f);
+  color: #fff;
+  text-align: center;
+  padding: 2rem 1rem;
+  border-radius: 0 0 20px 20px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
 }
 
-main{
-  height: 10rem;
-  margin-top: 3rem;
-  width: 100%;
-  background-color: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+header h1 {
+  font-size: 2rem;
+  font-weight: 600;
 }
 
-main div{
-  background-color: whitesmoke;
-  height: 10rem;
-  width: 60%;
-  border-radius: 1rem;
+/* Action button */
+.actions {
   display: flex;
-  align-items: center;
   justify-content: center;
+  margin: 2rem 0;
 }
 
-main div a{
-  font-size: medium;
+.register-btn {
+  padding: 0.8rem 1.5rem;
+  background: linear-gradient(135deg, #ff3d7f, #ff6f61);
+  color: #fff;
+  text-decoration: none;
+  font-size: 1rem;
+  border-radius: 12px;
+  transition: 0.3s;
+  font-weight: bold;
+  box-shadow: 0 6px 15px rgba(255, 61, 127, 0.3);
+}
+
+.register-btn:hover {
+  background: linear-gradient(135deg, #ff6f61, #ff3d7f);
+  transform: translateY(-2px);
+}
+
+/* Houses Section */
+.houses {
+  width: 90%;
+  max-width: 800px;
+  margin: 0 auto 3rem auto;
+}
+
+.houses h2 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  font-size: 1.6rem;
+  color: #444;
+}
+
+/* House list */
+.house-list {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+}
+
+.house-card {
+  background: #fff;
+  padding: 1.2rem;
+  border-radius: 15px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+  text-align: center;
   font-weight: 500;
+  transition: 0.3s;
 }
 
+.house-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+}
+
+.house-card span {
+  font-size: 1.1rem;
+  color: #333;
+}

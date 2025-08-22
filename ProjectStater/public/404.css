@@ -1,0 +1,94 @@
+/* Reset some defaults */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #fff;
+  text-align: center;
+}
+
+/* Container box */
+.container {
+  max-width: 600px;
+  padding: 2rem;
+}
+
+/* Glitch effect for 404 text */
+.glitch {
+  font-size: 8rem;
+  font-weight: bold;
+  position: relative;
+  color: #fff;
+  text-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+}
+
+.glitch::before,
+.glitch::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  overflow: hidden;
+  color: #f00;
+  clip: rect(0, 900px, 0, 0);
+}
+
+.glitch::before {
+  animation: glitchTop 1.5s infinite linear alternate-reverse;
+}
+
+.glitch::after {
+  color: #0ff;
+  animation: glitchBottom 1.5s infinite linear alternate-reverse;
+}
+
+/* Glitch animations */
+@keyframes glitchTop {
+  0% { clip: rect(0, 9999px, 0, 0); }
+  10% { clip: rect(10px, 9999px, 50px, 0); transform: translate(-5px, -5px); }
+  20% { clip: rect(85px, 9999px, 140px, 0); transform: translate(5px, -2px); }
+  30% { clip: rect(55px, 9999px, 90px, 0); transform: translate(-3px, 3px); }
+  100% { clip: rect(0, 9999px, 0, 0); }
+}
+
+@keyframes glitchBottom {
+  0% { clip: rect(0, 9999px, 0, 0); }
+  10% { clip: rect(65px, 9999px, 100px, 0); transform: translate(3px, 2px); }
+  20% { clip: rect(30px, 9999px, 70px, 0); transform: translate(-3px, -3px); }
+  30% { clip: rect(100px, 9999px, 140px, 0); transform: translate(2px, 4px); }
+  100% { clip: rect(0, 9999px, 0, 0); }
+}
+
+/* Message */
+p {
+  font-size: 1.2rem;
+  margin: 1rem 0 2rem;
+  color: #ddd;
+}
+
+/* Button */
+.home-btn {
+  text-decoration: none;
+  background: #ff4757;
+  color: white;
+  padding: 0.7rem 1.5rem;
+  border-radius: 30px;
+  font-weight: bold;
+  transition: 0.3s ease;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+.home-btn:hover {
+  background: #ff6b81;
+  transform: scale(1.05);
+}

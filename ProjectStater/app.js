@@ -2,8 +2,11 @@ const express = require("express");
 const path = require("path");
 const rootDir = require("./util/path");
 const userRouter = require("./routers/userRouter");
-const hostRouter = require("./routers/hostRouter");
+const { hostRouter } = require("./routers/hostRouter");
+
 const app = express();
+app.set("view engine", "ejs");
+app.set("views", "views");
 
 app.use((req,res,next) => {
   console.log(req.url, req.method);
