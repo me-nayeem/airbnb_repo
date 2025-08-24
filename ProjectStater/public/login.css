@@ -1,0 +1,222 @@
+:root {
+  --bg: #f9fafb;
+  --card: #ffffff;
+  --muted: #6b7280;
+  --accent1: #ff6f61; /* coral */
+  --accent2: #ff3d7f; /* pink */
+  --primary-gradient: linear-gradient(135deg, var(--accent2), var(--accent1));
+  --glass-shadow: 0 10px 30px rgba(11, 24, 39, 0.06);
+}
+
+* {
+  box-sizing: border-box;
+}
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(180deg, #fbfdff, #f6f7fb);
+  color: #111827;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* layout */
+.auth-wrapper {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2.25rem 1rem;
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 420px;
+  background: var(--card);
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: var(--glass-shadow);
+  border: 1px solid rgba(11, 24, 39, 0.04);
+}
+
+.brand {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--accent2);
+  letter-spacing: 0.4px;
+}
+
+.subtitle {
+  margin-top: 0.25rem;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+/* alert */
+.alert {
+  background: #fff5f6;
+  color: #76232a;
+  padding: 0.6rem 0.9rem;
+  border-radius: 10px;
+  border: 1px solid rgba(199, 50, 62, 0.12);
+  margin-bottom: 0.9rem;
+  font-size: 0.95rem;
+}
+
+/* form */
+.login-form input[type="email"],
+.login-form input[type="password"] {
+  width: 100%;
+  padding: 0.85rem 0.9rem;
+  border-radius: 10px;
+  border: 1px solid rgba(11, 24, 39, 0.06);
+  background: linear-gradient(180deg, #fff, #fbfbfd);
+  margin-bottom: 0.9rem;
+  font-size: 0.98rem;
+  outline: none;
+  transition: box-shadow 0.15s, border-color 0.15s, transform 0.08s;
+}
+
+.login-form input:focus {
+  box-shadow: 0 6px 18px rgba(255, 93, 122, 0.12);
+  border-color: rgba(255, 61, 127, 0.6);
+}
+
+.password-row {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.password-row .show-pass {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 1.05rem;
+  padding: 0.5rem;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  font-size: 0.95rem;
+  color: var(--muted);
+}
+
+.form-actions .remember input {
+  margin-right: 0.45rem;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.72rem 0.9rem;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.btn.primary {
+  width: 100%;
+  color: #fff;
+  background: var(--primary-gradient);
+  box-shadow: 0 10px 28px rgba(255, 61, 127, 0.12);
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+
+.btn.primary:hover {
+  transform: translateY(-3px);
+}
+
+.divider {
+  text-align: center;
+  margin: 1rem 0;
+  position: relative;
+}
+.divider span {
+  background: var(--card);
+  padding: 0 0.6rem;
+  color: var(--muted);
+}
+.divider:before {
+  content: "";
+  display: block;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    rgba(11, 24, 39, 0.06),
+    rgba(11, 24, 39, 0.02)
+  );
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.socials {
+  display: flex;
+  gap: 0.6rem;
+  flex-direction: column;
+}
+
+.btn.social {
+  width: 100%;
+  padding: 0.72rem;
+  border-radius: 10px;
+  background: #f7f8fa;
+  color: #111827;
+  border: 1px solid rgba(11, 24, 39, 0.04);
+  font-weight: 700;
+}
+
+/* .btn.social.google{ }
+.btn.social.github{  } */
+
+.signup {
+  text-align: center;
+  margin-top: 1rem;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+.signup a {
+  color: var(--accent2);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+/* small helpers */
+.sr-only {
+  position: absolute !important;
+  height: 1px;
+  width: 1px;
+  overflow: hidden;
+  clip: rect(1px, 1px, 1px, 1px);
+  white-space: nowrap;
+}
+
+/* responsive */
+@media (max-width: 480px) {
+  .auth-card {
+    padding: 1.25rem;
+    border-radius: 12px;
+  }
+  .logo {
+    font-size: 1.25rem;
+  }
+}

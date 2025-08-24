@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title><%= house.houseName %> — Details</title>
+    <link rel="stylesheet" href="/houseDetail.css" />
+    <link rel="stylesheet" href="/booking.css" />
+  </head>
+  <body>
+    <main class="detail-container">
+      <a class="back-link" href="/">← Back to Homes</a>
+
+      <article class="detail-card">
+        <div class="media">
+          <img
+            src="<%= house.photo ? house.photo : '/airbnbimg.jpeg' %>"
+            alt="<%= house.houseName %>"
+          />
+          <% if (house.nearby) { %>
+          <span class="badge">Nearby</span>
+          <% } %>
+        </div>
+
+        <div class="info">
+          <h1 class="title"><%= house.houseName %></h1>
+
+          <div class="meta-row">
+            <div class="meta-item location">
+              <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+                <path
+                  d="M12 2C8.686 2 6 4.686 6 8c0 5.25 6 12 6 12s6-6.75 6-12c0-3.314-2.686-6-6-6z"
+                  fill="currentColor"
+                />
+              </svg>
+              <span><%= house.location || 'Unknown location' %></span>
+            </div>
+
+            <div class="meta-item rating">
+              <div class="stars">
+                <% const full = Math.floor(house.rating || 0); const half =
+                ((house.rating || 0) - full) >= 0.5; for (let i = 0; i < 5; i++)
+                { if (i < full) { %>
+                <span class="star full">★</span>
+                <% } else if (i === full && half) { %>
+                <span class="star half">★</span>
+                <% } else { %>
+                <span class="star empty">☆</span>
+                <% } } %>
+              </div>
+              <span class="rating-num"
+                ><%= (house.rating || 0).toFixed(1) %></span
+              >
+            </div>
+          </div>
+
+          <div class="price-row">
+            <div class="price">
+              <span class="amount">৳<%= house.pricePerNight || '—' %></span>
+              <span class="per"> / night</span>
+            </div>
+
+            <div class="cta-row">
+              <button id="openBookBtn" class="btn primary" type="button">
+                Book Now
+              </button>
+              <a
+                class="btn ghost"
+                href="/suggest-edit/<%= encodeURIComponent(house.houseName) %>"
+                title="Suggest an edit for <%= house.houseName %>"
+              >
+                Mark us Favorite
+              </a>
+            </div>
+          </div>
+
+          <section class="description">
+            <h2>About this home</h2>
+            <p>
+              <%= house.description && house.description.trim().length ?
+              house.description : 'No description provided.' %>
+            </p>
+          </section>
+
+          <footer class="detail-footer">
+            <small>Listed name: <strong><%= house.houseName %></strong></small>
+          </footer>
+        </div>
+      </article>
+    </main>
+
+    <div
+      id="bookingModal"
+      class="modal"
+      aria-hidden="true"
+      role="dialog"
+      aria-labelledby="bookingTitle"
+    >
+      <div class="modal-backdrop" id="modalBackdrop"></div>
+
+      <div class="modal-panel" role="document">
+        <button
+          class="modal-close"
+          id="closeModalBtn"
+          aria-label="Close booking form"
+        >
+          ✕
+        </button>
+        <h2 id="bookingTitle">
+          Book: <span class="modal-house"><%= house.houseName %></span>
+        </h2>
+
+        <form
+          id="bookingForm"
+          action="/book/<%= encodeURIComponent(house.houseName) %>"
+          method="POST"
+          class="booking-form"
+        >
+          <input
+            type="hidden"
+            name="houseName"
+            value="<%= house.houseName %>"
+          />
+          <input
+            type="hidden"
+            name="pricePerNight"
+            id="pricePerNight"
+            value="<%= house.pricePerNight || 0 %>"
+          />
+
+          <div class="row">
+            <label>
+              Guest name
+              <input
+                type="text"
+                name="guestName"
+                required
+                placeholder="Your full name"
+              />
+            </label>
+
+            <label>
+              Email
+              <input
+                type="email"
+                name="email"
+                required
+                placeholder="you@example.com"
+              />
+            </label>
+          </div>
+
+          <div class="row">
+            <label>
+              Phone
+              <input type="tel" name="phone" placeholder="+8801XXXXXXXXX" />
+            </label>
+
+            <label>
+              Guests
+              <input
+                type="number"
+                name="guests"
+                min="1"
+                max="20"
+                value="1"
+                required
+              />
+            </label>
+          </div>
+
+          <div class="row">
+            <label>
+              Check-in
+              <input type="date" name="checkIn" id="checkIn" required />
+            </label>
+
+            <label>
+              Check-out
+              <input type="date" name="checkOut" id="checkOut" required />
+            </label>
+          </div>
+
+          <label>
+            Payment method
+            <select name="paymentMethod" required>
+              <option value="card">Card</option>
+              <option value="cash">Cash on arrival</option>
+              <option value="upi">UPI</option>
+            </select>
+          </label>
+
+          <label>
+            Notes (optional)
+            <textarea
+              name="notes"
+              rows="3"
+              placeholder="Any special requests"
+            ></textarea>
+          </label>
+
+          <div class="total-row">
+            <div>
+              <small>Nights: <span id="nightsCount">0</span></small>
+              <div class="total-price">
+                Total: <span id="totalPrice">₹0</span>
+              </div>
+            </div>
+
+            <div class="form-actions">
+              <button type="submit" class="btn primary">Confirm Booking</button>
+              <button type="button" id="cancelBtn" class="btn ghost">
+                Cancel
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <script>
+      (function () {
+        const openBtn = document.getElementById("openBookBtn");
+        const modal = document.getElementById("bookingModal");
+        const backdrop = document.getElementById("modalBackdrop");
+        const closeBtn = document.getElementById("closeModalBtn");
+        const cancelBtn = document.getElementById("cancelBtn");
+        const form = document.getElementById("bookingForm");
+
+        const checkIn = document.getElementById("checkIn");
+        const checkOut = document.getElementById("checkOut");
+        const nightsCount = document.getElementById("nightsCount");
+        const totalPrice = document.getElementById("totalPrice");
+        const pricePerNightEl = document.getElementById("pricePerNight");
+
+        function openModal() {
+          modal.setAttribute("aria-hidden", "false");
+          modal.classList.add("open");
+          document.body.style.overflow = "hidden";
+          const today = new Date();
+          const iso = today.toISOString().slice(0, 10);
+          if (!checkIn.value) checkIn.value = iso;
+          if (!checkOut.value) {
+            const t2 = new Date(today);
+            t2.setDate(t2.getDate() + 1);
+            checkOut.value = t2.toISOString().slice(0, 10);
+          }
+          calcTotal();
+          setTimeout(
+            () => form.querySelector('input[name="guestName"]').focus(),
+            150
+          );
+        }
+
+        function closeModal() {
+          modal.setAttribute("aria-hidden", "true");
+          modal.classList.remove("open");
+          document.body.style.overflow = "";
+        }
+
+        function parseDate(d) {
+          return d ? new Date(d + "T00:00:00") : null;
+        }
+
+        function calcTotal() {
+          const d1 = parseDate(checkIn.value);
+          const d2 = parseDate(checkOut.value);
+          let nights = 0;
+          if (d1 && d2) {
+            const diff = d2.getTime() - d1.getTime();
+            nights = Math.max(0, Math.round(diff / (1000 * 60 * 60 * 24)));
+          }
+          nightsCount.textContent = nights;
+          const price = Number(pricePerNightEl.value) || 0;
+          const total = nights * price;
+          totalPrice.textContent = "৳" + total.toLocaleString("en-IN");
+        }
+
+        openBtn.addEventListener("click", openModal);
+        closeBtn.addEventListener("click", closeModal);
+        cancelBtn.addEventListener("click", closeModal);
+        backdrop.addEventListener("click", closeModal);
+
+        [checkIn, checkOut].forEach((el) =>
+          el.addEventListener("change", calcTotal)
+        );
+
+        form.addEventListener("submit", (e) => {
+          const gName = form.guestName.value.trim();
+          if (gName.length < 2) {
+            e.preventDefault();
+            alert("Please enter a valid guest name.");
+            form.guestName.focus();
+            return;
+          }
+          const d1 = parseDate(checkIn.value);
+          const d2 = parseDate(checkOut.value);
+          if (!d1 || !d2 || d2 <= d1) {
+            e.preventDefault();
+            alert(
+              "Please select valid check-in and check-out dates (check-out must be after check-in)."
+            );
+            return;
+          }
+        });
+
+        document.addEventListener("keydown", (ev) => {
+          if (ev.key === "Escape" && modal.classList.contains("open"))
+            closeModal();
+        });
+      })();
+    </script>
+  </body>
+</html>

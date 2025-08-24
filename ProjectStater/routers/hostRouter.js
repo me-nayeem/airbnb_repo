@@ -1,27 +1,32 @@
-// installed module
+// External module
 const express = require("express");
 
-//core module
-const path = require("path");
-
 //local module
-const rootDir = require("../util/path");
-
+const Controller = require("../controller/homes");
+const houses = require("../util/data");
 
 const hostRouter = express.Router();
 
+// below handling all the http request from client
 
-hostRouter.get("/set-home", (req, res, next) => {
-    res.sendFile(path.join(rootDir, 'views', 'addHome.html'));
-});
+hostRouter.get("/set-home", Controller.setHome);
 
-const houses = [];
-hostRouter.post("/set-home", (req, res, next) => {
-  console.log(req.body, req.body.houseName);
-    res.sendFile(path.join(rootDir,  'views', 'addedHome.html'));
-    houses.push({houseName: req.body.houseName});
-});
+hostRouter.post("/set-home", Controller.postHome);
+
+hostRouter.get("/houses/:name", Controller.getHouseDetails);
+
+hostRouter.post("/book/:name", Controller.postBookingHomes);
+
+hostRouter.get("/suggest-edit/:name", Controller.getSuggestPage);
+
+hostRouter.post("/suggest-edit/:name", Controller.postSuggestPage);
+
+hostRouter.get("/create-account", Controller.showCreateAccountPage);
+
+hostRouter.post("/create-account", Controller.showCreateAccountStatus);
+
+hostRouter.get("/login", Controller.showLoginPage);
+
+hostRouter.post("/login", Controller.showLoginStatus);
 
 exports.hostRouter = hostRouter;
-exports.houses = houses;
-

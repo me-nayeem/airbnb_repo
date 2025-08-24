@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Airbnb — Login</title>
+    <link rel="stylesheet" href="/login.css" />
+  </head>
+  <body class="login-page">
+    <main class="auth-wrapper">
+      <div class="auth-card">
+        <div class="brand">
+          <div class="logo">Airbnb</div>
+          <p class="subtitle">Welcome back — sign in to continue</p>
+        </div>
+
+        <!-- server-side flash / error message (optional) -->
+        <% if (typeof error !== 'undefined' && error) { %>
+        <div class="alert"><%= error %></div>
+        <% } %>
+
+        <form action="/login" method="POST" class="login-form" novalidate>
+          <label for="email" class="sr-only">Email</label>
+          <input
+            id="email"
+            name="email"
+            type="email"
+            placeholder="you@example.com"
+            required
+            autocomplete="email"
+          />
+
+          <label for="password" class="sr-only">Password</label>
+          <div class="password-row">
+            <input
+              id="password"
+              name="password"
+              type="password"
+              placeholder="Enter your password"
+              required
+              autocomplete="current-password"
+            />
+            <button
+              type="button"
+              class="show-pass"
+              id="togglePass"
+              aria-label="Show password"
+            >
+              👁
+            </button>
+          </div>
+
+          <div class="form-actions">
+            <label class="remember">
+              <input type="checkbox" name="remember" /> Remember me
+            </label>
+            <a class="forgot" href="/forgot">Forgot?</a>
+          </div>
+
+          <button type="submit" class="btn primary">Sign in</button>
+
+          <div class="divider"><span>or</span></div>
+
+          <div class="socials">
+            <a class="btn social google" href="/auth/google"
+              >Sign in with Google</a
+            >
+            <a class="btn social github" href="/auth/github"
+              >Sign in with GitHub</a
+            >
+          </div>
+        </form>
+
+        <p class="signup">
+          Don't have an account? <a href="/create-account">Create account</a>
+        </p>
+      </div>
+    </main>
+
+    <script>
+      // Toggle password visibility
+      (function () {
+        const toggle = document.getElementById("togglePass");
+        const pwd = document.getElementById("password");
+        toggle &&
+          toggle.addEventListener("click", () => {
+            if (pwd.type === "password") {
+              pwd.type = "text";
+              toggle.textContent = "🙈";
+            } else {
+              pwd.type = "password";
+              toggle.textContent = "👁";
+            }
+          });
+
+        // simple client-side validation hint (optional)
+        const form = document.querySelector(".login-form");
+        form &&
+          form.addEventListener("submit", (e) => {
+            const email = document.getElementById("email");
+            if (!email.value || !email.checkValidity()) {
+              e.preventDefault();
+              email.focus();
+            }
+          });
+      })();
+    </script>
+  </body>
+</html>

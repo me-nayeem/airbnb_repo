@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Create Account — Airbnb</title>
+    <link rel="stylesheet" href="/create-account.css" />
+  </head>
+  <body class="register-page">
+    <main class="wrap">
+      <div class="card">
+        <div class="brand">
+          <div class="logo">Airbnb</div>
+          <p class="lead">Create your account — join the community</p>
+        </div>
+
+        <% if (typeof error !== 'undefined' && error) { %>
+        <div class="alert error"><%= error %></div>
+        <% } %> <% if (typeof success !== 'undefined' && success) { %>
+        <div class="alert success"><%= success %></div>
+        <% } %>
+
+        <form action="/create-account" method="POST" class="register-form">
+          <div class="two-col">
+            <label class="field">
+              <span class="label-text">Full name</span>
+              <input name="name" type="text" placeholder="John Doe" required />
+            </label>
+
+            <label class="field">
+              <span class="label-text">Phone (optional)</span>
+              <input name="phone" type="tel" placeholder="+8801XXXXXXXXX" />
+            </label>
+          </div>
+
+          <label class="field">
+            <span class="label-text">Email</span>
+            <input
+              name="email"
+              type="email"
+              placeholder="you@example.com"
+              required
+            />
+          </label>
+
+          <div class="two-col">
+            <label class="field">
+              <span class="label-text">Password</span>
+              <div class="password-row">
+                <input
+                  id="password"
+                  name="password"
+                  type="password"
+                  placeholder="Create a password"
+                  required
+                />
+                <button type="button" id="togglePassword" class="toggle">
+                  👁
+                </button>
+              </div>
+            </label>
+
+            <label class="field">
+              <span class="label-text">Confirm password</span>
+              <input
+                id="confirmPassword"
+                name="confirmPassword"
+                type="password"
+                placeholder="Confirm password"
+                required
+              />
+            </label>
+          </div>
+
+          <label class="field">
+            <span class="label-text">Location (city)</span>
+            <input
+              name="location"
+              type="text"
+              placeholder="Dhaka"
+              autocomplete="address-level2"
+            />
+          </label>
+
+          <label class="terms">
+            <input type="checkbox" name="agree" required />
+            <span>I agree to the <a href="/terms">Terms & Conditions</a></span>
+          </label>
+
+          <button type="submit" class="btn primary">Create account</button>
+
+          <div class="meta">
+            <p>Already have an account? <a href="/login">Sign in</a></p>
+          </div>
+        </form>
+      </div>
+    </main>
+
+    <script>
+      (function () {
+        const pwd = document.getElementById("password");
+        const toggle = document.getElementById("togglePassword");
+        const confirmPwd = document.getElementById("confirmPassword");
+        const form = document.querySelector(".register-form");
+
+        toggle &&
+          toggle.addEventListener("click", () => {
+            if (pwd.type === "password") {
+              pwd.type = "text";
+              toggle.textContent = "🙈";
+            } else {
+              pwd.type = "password";
+              toggle.textContent = "👁";
+            }
+          });
+
+        form &&
+          form.addEventListener("submit", (e) => {
+            if (pwd.value !== confirmPwd.value) {
+              e.preventDefault();
+              alert("Passwords do not match");
+              confirmPwd.focus();
+              return false;
+            }
+
+            // basic password strength hint (optional)
+            if (pwd.value.length < 6) {
+              e.preventDefault();
+              alert("Password should be at least 6 characters");
+              pwd.focus();
+              return false;
+            }
+          });
+      })();
+    </script>
+  </body>
+</html>

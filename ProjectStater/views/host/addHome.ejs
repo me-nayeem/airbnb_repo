@@ -1,0 +1,124 @@
+ <%- include("../partials/header")%>
+  <body>
+    <div class="form-container">
+      <h1>Register Your Home</h1>
+      <form action="/set-home" method="POST" id="homeForm">
+        <label class="field">
+          <span class="label-text">House Name</span>
+          <input
+            type="text"
+            name="houseName"
+            placeholder="E.g. Cozy Cottage by the Lake"
+            required
+          />
+        </label>
+
+        <label class="field two-col">
+          <span class="label-text">Price per night (₹)</span>
+          <input
+            type="number"
+            name="pricePerNight"
+            placeholder="e.g. 2500"
+            min="0"
+            step="1"
+            required
+          />
+        </label>
+
+        <label class="field two-col">
+          <span class="label-text">Location</span>
+          <input
+            type="text"
+            name="location"
+            placeholder="City, Neighborhood"
+            required
+          />
+        </label>
+
+        <label class="field">
+          <span class="label-text">Rating (0.0 - 5.0)</span>
+          <div class="rating-row">
+            <input
+              type="range"
+              name="rating"
+              id="ratingRange"
+              min="0"
+              max="5"
+              step="0.1"
+              value="4.5"
+            />
+            <output id="ratingValue">4.5</output>
+          </div>
+        </label>
+
+        <label class="field">
+          <span class="label-text">Short Description</span>
+          <textarea
+            name="description"
+            rows="4"
+            placeholder="Describe the home (highlights, amenities)"
+          ></textarea>
+        </label>
+
+        <label class="field file-field">
+          <span class="label-text">Photo (optional)</span>
+          <input type="text" name="photo" placeholder="Enter house photo URL" id="photoInput"/>
+        </label>
+
+        <label class="field checkbox-field">
+          <input type="checkbox" name="nearby" value="true" />
+          <span class="label-text-inline"
+            >Located near public transport / attractions</span
+          >
+        </label>
+
+        <div class="actions">
+          <button type="submit" class="submit-btn">Register Home</button>
+          <a href="/" class="cancel-btn">Cancel</a>
+        </div>
+      </form>
+    </div>
+
+
+
+    <script>
+      const photoInput = document.getElementById("photoInput");
+      const photoPreview = document.getElementById("photoPreview");
+      const previewWrap = document.getElementById("previewWrap");
+
+      photoInput.addEventListener("change", function () {
+        const file = this.files && this.files[0];
+        if (!file) {
+          photoPreview.style.display = "none";
+          previewWrap.querySelector(".preview-placeholder").style.display = "";
+          return;
+        }
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          photoPreview.src = e.target.result;
+          photoPreview.style.display = "";
+          previewWrap.querySelector(".preview-placeholder").style.display =
+            "none";
+        };
+        reader.readAsDataURL(file);
+      });
+
+      const ratingRange = document.getElementById("ratingRange");
+      const ratingValue = document.getElementById("ratingValue");
+      ratingRange.addEventListener("input", () => {
+        ratingValue.textContent = parseFloat(ratingRange.value).toFixed(1);
+      });
+
+
+      const form = document.getElementById("homeForm");
+      form.addEventListener("submit", (e) => {
+        const name = form.houseName.value.trim();
+        if (name.length < 2) {
+          e.preventDefault();
+          alert("Please enter a valid house name.");
+          form.houseName.focus();
+        }
+      });
+    </script>
+  </body>
+</html>

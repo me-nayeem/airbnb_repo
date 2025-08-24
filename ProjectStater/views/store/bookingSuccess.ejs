@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Booking Confirmed — <%= booking.houseName %></title>
+    <link rel="stylesheet" href="/bookingSuccess.css" />
+  </head>
+  <body>
+    <main class="success-wrap">
+      <section class="success-card">
+        <div class="icon">🎉</div>
+
+        <h1 class="headline">Booking Confirmed!</h1>
+        <p class="sub">
+          Thanks <strong><%= booking.guestName %></strong> — your stay at
+          <strong><%= booking.houseName %></strong> is reserved.
+        </p>
+
+        <div class="details-grid">
+          <div class="detail">
+            <div class="label">Booking ID</div>
+            <div class="value"><%= booking.id %></div>
+          </div>
+
+          <div class="detail">
+            <div class="label">Dates</div>
+            <div class="value">
+              <%= booking.checkIn %> → <%= booking.checkOut %>
+            </div>
+          </div>
+
+          <div class="detail">
+            <div class="label">Nights</div>
+            <div class="value"><%= booking.nights %></div>
+          </div>
+
+          <div class="detail">
+            <div class="label">Guests</div>
+            <div class="value"><%= booking.guests %></div>
+          </div>
+
+          <div class="detail">
+            <div class="label">Price/night</div>
+            <div class="value">
+              ৳<%= booking.pricePerNight.toLocaleString('en-IN') %>
+            </div>
+          </div>
+
+          <div class="detail">
+            <div class="label">Total Paid</div>
+            <div class="value total">
+              ৳<%= booking.total.toLocaleString('en-IN') %>
+            </div>
+          </div>
+        </div>
+
+        <% if (booking.paymentMethod) { %>
+        <p class="pay">
+          Payment: <strong><%= booking.paymentMethod %></strong>
+        </p>
+        <% } %> <% if (booking.notes) { %>
+        <div class="notes">
+          <h3>Notes</h3>
+          <p><%= booking.notes %></p>
+        </div>
+        <% } %>
+
+        <div class="actions">
+          <a class="btn primary" href="/">Back to Homes</a>
+          <a class="btn ghost" href="/set-home">Register New Home</a>
+        </div>
+
+        <p class="footer-note">
+          We emailed a confirmation to <strong><%= booking.email %></strong>. If
+          you need help, contact us.
+        </p>
+      </section>
+    </main>
+  </body>
+</html>
