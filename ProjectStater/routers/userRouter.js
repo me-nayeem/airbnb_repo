@@ -1,4 +1,4 @@
-//installed module
+
 const express = require("express");
 const Controller = require("../controller/homes");
 
