@@ -65,7 +65,7 @@ exports.postHome = (req, res, next) => {
 
 exports.getHouseDetails = (req, res, next) => {
   const encoded = req.params.name;
-  const name = decodeURIComponent(encoded); //conver the url house name into read able name from: homes%774327742& -> to: homes (like this type).
+  const name = decodeURIComponent(encoded); 
   console.log(name);
   houseData.findByHouseName(name, (house) => {
     console.log(house);
