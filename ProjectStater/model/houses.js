@@ -23,8 +23,7 @@ module.exports = class Homes {
 
   save() {
     Homes.fetchAllData((addedHomes) => {
-      addedHomes.push(this); // if you do not push your new data then how the server will show and store the new data in data file...
-      fs.writeFile(
+      addedHomes.push(this); 
         path.join(rootDir, "data", "houseData.json"),
         JSON.stringify(addedHomes),
         (err) => {
