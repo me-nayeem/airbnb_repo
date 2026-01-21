@@ -31,12 +31,11 @@ module.exports = class UserLogin {
 
     fs.readFile(filePath, "utf8", (err, data) => {
       if (err) {
-        // if file not found or error -> return empty array
         if (err.code === "ENOENT") return callback([]);
-        return callback([]); // or handle other errors differently
+        return callback([]); 
       }
 
-      // handle empty file
+
       if (!data || data.trim() === "") {
         return callback([]);
       }
@@ -46,7 +45,7 @@ module.exports = class UserLogin {
         return callback(parsed);
       } catch (e) {
         console.error("Invalid JSON in loginInfo.json:", e.message);
-        return callback([]); // fallback to empty array if corrupted
+        return callback([]); 
       }
     });
   }
